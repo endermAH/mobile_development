@@ -9,12 +9,13 @@ class tarificator():
             # Defaults
             outcome_limit = 0,
             income_limit = 50,
-            k_income_prelimit = 1,
-            k_outcome_prelimit = 1,
+            k_income_prelimit = 0,
+            k_outcome_prelimit = 2,
             k_income_postlimit = 1,
-            k_outcome_postlimit = 1,
-            free_sms_count = 5,
-            data_file_path = './data.csv'
+            k_outcome_postlimit = 2,
+            free_sms_count = 0,
+            sms_cost = 1,
+            data_file_path = './data.csv',
         ):
 
         # Initialise variables
@@ -27,13 +28,12 @@ class tarificator():
         self.k_outcome_postlimit = k_outcome_postlimit
         self.free_sms_count = free_sms_count
         self.data_file_path = data_file_path
+        self.sms_cost = sms_cost
 
-        # Collect data from file
+    def tarificate_tel(self, target):
 
         data_file = open(self.data_file_path, 'r')
         self.reader = csv.DictReader(data_file, delimiter=',')
-
-    def tarificate_tel(self, target):
 
         # Calculate calls cost
 
@@ -54,13 +54,36 @@ class tarificator():
                     outcome_limit = 0
 
             if ( line['msisdn_dest'] == target ):
-                a = 0
-                # cost += line['call_duration'])
+                if ( income_limit - call_duration > 0 ):
+                    income_limit -= call_duration
+                    cost += call_duration * self.k_income_prelimit
+                else:
+                    income_limit -= call_duration
+                    cost += (0 - income_limit)*self.k_income_prelimit + (call_duration + income_limit)*self.k_income_prelimit
+                    income_limit = 0
+
+        data_file.close()
 
         return cost
 
-    def tarificate_sms(self):
-        print('sms')
+    def tarificate_sms(self, target):
+
+        data_file = open(self.data_file_path, 'r')
+        self.reader = csv.DictReader(data_file, delimiter=',')
+
+        # Calculate sms cost
+
+        cost = 0
+        free_sms_count = self.free_sms_count
+
+        for line in self.reader:
+            if ( line['msisdn_origin'] == target ): free_sms_count -= int(line['sms_number'])
+
+        cost += (0 - free_sms_count)*self.sms_cost if ( free_sms_count < 0 ) else 0
+
+        data_file.close()
+
+        return cost
 
 if __name__ == '__main__':
 
@@ -68,3 +91,4 @@ if __name__ == '__main__':
 
     counter = tarificator()
     print(counter.tarificate_tel('911926375'))
+    print(counter.tarificate_sms('911926375'))
