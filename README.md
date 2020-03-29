@@ -1,1 +1,3 @@
-# Mobile_development
+# Управление мобильными устройствами
+
+1. «Обработка и тарификация CDR (Call Detail Record)» `/lab_1`
