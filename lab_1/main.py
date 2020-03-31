@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import csv
 
@@ -90,5 +91,5 @@ if __name__ == '__main__':
     # Init work class
 
     counter = tarificator()
-    print(counter.tarificate_tel('911926375'))
-    print(counter.tarificate_sms('911926375'))
+    print('Стоимость звонков абонента: ' + str(counter.tarificate_tel('911926375')))
+    print('Стоимость SMS абонента: ' + str(counter.tarificate_sms('911926375')))
