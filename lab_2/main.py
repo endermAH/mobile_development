@@ -7,14 +7,13 @@ class tarificator():
         self,
         data_file_path='./nf_decoded',
         factor=1,
-        target='192.168.250.41'
         ):
 
         self.data_file_path = data_file_path
         self.factor = factor
         self.target = target
 
-    def tarificate_net(self):
+    def tarificate_net(self, target):
 
         data_types = {
             "date": 0,
@@ -48,7 +47,7 @@ class tarificator():
 
             linedata = line.split(' ')
 
-            if ( linedata[data_types["ip_src"]].split(':')[0] == self.target ):
+            if ( linedata[data_types["ip_src"]].split(':')[0] == target ):
                 cost += self.factor * (float(linedata[data_types["bytes"]]) / 1024 / 1024)
 
         return cost
@@ -56,4 +55,4 @@ class tarificator():
 if __name__ == '__main__':
 
     net_tar = tarificator()
-    print('Стоимость услуг интернет: ' + str(net_tar.tarificate_net()))
+    print('Стоимость услуг интернет: ' + str(net_tar.tarificate_net('192.168.250.41')))
