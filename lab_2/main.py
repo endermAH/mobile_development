@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# lab 2
 
 class tarificator():
 
@@ -11,7 +12,6 @@ class tarificator():
 
         self.data_file_path = data_file_path
         self.factor = factor
-        self.target = target
 
     def tarificate_net(self, target):
 
