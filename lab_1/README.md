@@ -1,5 +1,5 @@
 # Использование
-```
+```bash
 $ cd lab_1
 $ ./main.py
 ```
@@ -24,3 +24,8 @@ $ ./main.py
 | ------------- | -------------  | ------------- |
 | tarificate_tel | target (string) - *тарифицируемый номер* | Тарифицировать звонки с определенного номера |
 | tarificate_sms | target (string) - *тарифицируемый номер* | Тарифицировать sms с определенного номера |
+
+## Контакты
+1. Skype: live:.cid.fc863756509c8a3d
+2. Telegram: @endermah
+3. Email: evg.kuryatov@gmail.com

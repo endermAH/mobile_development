@@ -1,5 +1,5 @@
 # Использование
-```
+```bash
 $ cd lab_2
 $ ./main.py
 ```
@@ -17,8 +17,7 @@ $ ./main.py
 | ------------- | -------------  | ------------- |
 | tarificate_net | target (string) - *тарифицируемый ip* | Тарифицировать трафик с определенного ip |
 
-***
-### Контакты
-Skype: live:.cid.fc863756509c8a3d
-Telegram: @endermah
-Email: evg.kuryatov@gmail.com
+## Контакты
+1. Skype: live:.cid.fc863756509c8a3d
+2. Telegram: @endermah
+3. Email: evg.kuryatov@gmail.com
