@@ -16,3 +16,9 @@ $ ./main.py
 | Название метода  | Параметры | Описание |
 | ------------- | -------------  | ------------- |
 | tarificate_net | target (string) - *тарифицируемый ip* | Тарифицировать трафик с определенного ip |
+
+***
+### Контакты
+Skype: live:.cid.fc863756509c8a3d
+Telegram: @endermah
+Email: evg.kuryatov@gmail.com
