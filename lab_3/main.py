@@ -4,6 +4,7 @@
 
 import csv
 from jinja2 import Template
+from jinja2 import Environment, FileSystemLoader
 import pdfkit
 
 class tarificator():
@@ -19,7 +20,7 @@ class tarificator():
             k_outcome_postlimit = 2,
             free_sms_count = 0,
             sms_cost = 1,
-            data_file_path = './data.csv',
+            csv_file_path = './data.csv',
             data_file_path='./nf_decoded',
             factor=1,
         ):
@@ -33,14 +34,14 @@ class tarificator():
         self.k_income_postlimit = k_income_postlimit
         self.k_outcome_postlimit = k_outcome_postlimit
         self.free_sms_count = free_sms_count
-        self.data_file_path = data_file_path
+        self.csv_file_path = csv_file_path
         self.sms_cost = sms_cost
         self.data_file_path = data_file_path
         self.factor = factor
 
     def tarificate_tel(self, target):
 
-        data_file = open(self.data_file_path, 'r')
+        data_file = open(self.csv_file_path, 'r')
         self.reader = csv.DictReader(data_file, delimiter=',')
 
         # Calculate calls cost
@@ -76,7 +77,7 @@ class tarificator():
 
     def tarificate_sms(self, target):
 
-        data_file = open(self.data_file_path, 'r')
+        data_file = open(self.csv_file_path, 'r')
         self.reader = csv.DictReader(data_file, delimiter=',')
 
         # Calculate sms cost
@@ -130,7 +131,7 @@ class tarificator():
             if ( linedata[data_types["ip_src"]].split(':')[0] == target ):
                 cost += self.factor * (float(linedata[data_types["bytes"]]) / 1024 / 1024)
 
-        return cost
+        return round(cost, 2)
 
     def generate_pdf(self, output, bik, src_num ,inn ,kpp, dst, number, date, customer, tel, sms, net):
 
@@ -138,7 +139,11 @@ class tarificator():
         template = tmplt_file.read()
         tmplt_file.close()
 
-        invoice = Template(template)
+        env = Environment(loader=FileSystemLoader('.'))
+        invoice = env.get_template('invoice.html.j2')
+
+        # invoice = Template(template.decode('utf-8'))
+        sum = tel+sms+net
         invoice_content = invoice.render(
             BIK=bik,
             SRC_NUM=src_num,
@@ -151,11 +156,11 @@ class tarificator():
             TEL=tel,
             SMS=sms,
             NET=net,
-            SUM=tel+sms+net,
+            SUM=sum
         )
 
         invoice_html = open('tmp_html.html', 'w')
-        invoice_html.write(invoice_content)
+        invoice_html.write(invoice_content.encode('utf-8'))
         invoice_html.close()
         pdfkit.from_url('./tmp_html.html', output)
 
@@ -173,4 +178,4 @@ if __name__ == '__main__':
     print('Стоимость SMS абонента: ' + str(sms))
     print('Стоимость услуг интернет: ' + str(net))
 
-    counter.generate_pdf('./invoice.pdf', '123123123', '1234123451234', '123123123', '1231231231', '12341234123412341', '1', '26.10.1999', 'Пупкин В. В.', tel, sms, net)
+    counter.generate_pdf('./invoice.pdf', '123123123', '1234123451234', '123123123', '1231231231', '12341234123412341', '1', '26.10.1999', u'Пупкин В. В.', tel, sms, net)

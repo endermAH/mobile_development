@@ -1,6 +1,7 @@
 # Использование
 ```bash
-$ apt-get install wkhtmltopdf
+$ sudo pip install pdfkit
+$ sudo apt-get install wkhtmltopdf
 $ cd lab_1
 $ ./main.py
 ```
@@ -18,6 +19,8 @@ $ ./main.py
 |free_sms_count | int | 0 | Количество бесплатных минут |
 |sms_cost | float | 1 | Стоимость sms |
 |data_file_path | string | './data.csv' | Путь до файла csv |
+|factor | float | 1 | Стоимость 1 Мегабайта |
+|data_file_path | string | './nf_decoded' | Путь до расшифрованного файла NetFlow |
 
 # Методы тарификатора
 
@@ -25,6 +28,8 @@ $ ./main.py
 | ------------- | -------------  | ------------- |
 | tarificate_tel | target (string) - *тарифицируемый номер* | Тарифицировать звонки с определенного номера |
 | tarificate_sms | target (string) - *тарифицируемый номер* | Тарифицировать sms с определенного номера |
+| tarificate_net | target (string) - *тарифицируемый ip* | Тарифицировать трафик с определенного ip |
+| generate_pdf | output(string) - *путь до результирующего pdf*, bik(string) - *БИК*, src_num(string) - *номер счета списания* ,inn(string) - *ИНН* ,kpp(string) - *КПП*, dst(string) - *номер счета для перевода*, number(string) - *номер выставленного счета*, date(string) - *дата*, customer(string) - *ФИО клиента*, tel(float) - *стоимость телефоонных звонков*, sms(float) - *стоимость смс*, net(float) - *стоимость интернет услуг* | Сгенерировать pdf счет за все услуги |
 
 ## Контакты
 1. Skype: live:.cid.fc863756509c8a3d
